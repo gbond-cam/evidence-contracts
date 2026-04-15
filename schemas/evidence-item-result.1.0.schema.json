@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://contracts.consilium.internal/evidence/evidence-item-result/1.0",
+  "$id": "./evidence-item-result.1.0.schema.json",
   "title": "EvidenceItemResult",
   "description": "Processing outcome for a single document within an ingestion job.",
   "type": "object",
@@ -13,7 +13,7 @@
       "description": "Service-assigned unique identifier for this evidence item within the index."
     },
     "evidenceType": {
-      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/EvidenceType"
+      "$ref": "./common.1.0.schema.json#/$defs/EvidenceType"
     },
     "status": {
       "type": "string",
@@ -21,10 +21,10 @@
       "description": "ACCEPTED: item passed all rules and was indexed. REJECTED: item failed one or more rules. SUPERSEDED: a newer item of the same type exists for this case."
     },
     "piiLevel": {
-      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/PiiLevel"
+      "$ref": "./common.1.0.schema.json#/$defs/PiiLevel"
     },
     "mimeType": {
-      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/MimeType"
+      "$ref": "./common.1.0.schema.json#/$defs/MimeType"
     },
     "fileSizeBytes": {
       "type": "integer",
@@ -33,7 +33,7 @@
     },
     "documentDate": {
       "oneOf": [
-        { "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ISO8601DateTime" },
+        { "$ref": "./common.1.0.schema.json#/$defs/ISO8601DateTime" },
         { "type": "null" }
       ]
     },
@@ -67,7 +67,7 @@
       "type": "array",
       "description": "Validation errors. Non-empty when status=REJECTED.",
       "items": {
-        "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ValidationError"
+        "$ref": "./common.1.0.schema.json#/$defs/ValidationError"
       }
     }
   }

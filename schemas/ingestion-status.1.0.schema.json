@@ -8,29 +8,29 @@
   "additionalProperties": false,
   "properties": {
     "correlationId": {
-      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/CorrelationId"
+      "$ref": "./common.1.0.schema.json#/$defs/CorrelationId"
     },
     "clientRef": {
-      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ClientRef"
+      "$ref": "./common.1.0.schema.json#/$defs/ClientRef"
     },
     "caseRef": {
-      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/CaseRef"
+      "$ref": "./common.1.0.schema.json#/$defs/CaseRef"
     },
     "evidenceType": {
-      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/EvidenceType"
+      "$ref": "./common.1.0.schema.json#/$defs/EvidenceType"
     },
     "status": {
-      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/IngestionStatus"
+      "$ref": "./common.1.0.schema.json#/$defs/IngestionStatus"
     },
     "createdAt": {
-      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ISO8601DateTime"
+      "$ref": "./common.1.0.schema.json#/$defs/ISO8601DateTime"
     },
     "updatedAt": {
-      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ISO8601DateTime"
+      "$ref": "./common.1.0.schema.json#/$defs/ISO8601DateTime"
     },
     "completedAt": {
       "oneOf": [
-        { "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ISO8601DateTime" },
+        { "$ref": "./common.1.0.schema.json#/$defs/ISO8601DateTime" },
         { "type": "null" }
       ]
     },
@@ -38,14 +38,14 @@
       "type": "array",
       "description": "Per-document processing results. Populated once status reaches COMPLETE, FAILED, or REJECTED.",
       "items": {
-        "$ref": "https://contracts.consilium.internal/evidence/evidence-item-result/1.0"
+        "$ref": "./evidence-item-result.1.0.schema.json"
       }
     },
     "errors": {
       "type": "array",
       "description": "Validation or processing errors. Non-empty when status is FAILED or REJECTED.",
       "items": {
-        "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ValidationError"
+        "$ref": "./common.1.0.schema.json#/$defs/ValidationError"
       }
     },
     "metadata": {

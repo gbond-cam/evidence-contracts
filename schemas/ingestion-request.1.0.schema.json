@@ -8,23 +8,23 @@
   "additionalProperties": false,
   "properties": {
     "correlationId": {
-      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/CorrelationId"
+      "$ref": "./common.1.0.schema.json#/$defs/CorrelationId"
     },
     "clientRef": {
-      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ClientRef"
+      "$ref": "./common.1.0.schema.json#/$defs/ClientRef"
     },
     "caseRef": {
-      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/CaseRef"
+      "$ref": "./common.1.0.schema.json#/$defs/CaseRef"
     },
     "evidenceType": {
-      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/EvidenceType"
+      "$ref": "./common.1.0.schema.json#/$defs/EvidenceType"
     },
     "mode": {
-      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/IngestionMode"
+      "$ref": "./common.1.0.schema.json#/$defs/IngestionMode"
     },
     "documentDate": {
       "oneOf": [
-        { "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ISO8601DateTime" },
+        { "$ref": "./common.1.0.schema.json#/$defs/ISO8601DateTime" },
         { "type": "null" }
       ],
       "description": "Date the document was produced or signed. Used to evaluate date-age rules (e.g. DATE_MAX_AGE_365D)."
@@ -36,7 +36,7 @@
       "additionalProperties": false,
       "properties": {
         "mimeType": {
-          "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/MimeType"
+          "$ref": "./common.1.0.schema.json#/$defs/MimeType"
         },
         "base64Content": {
           "type": "string",
@@ -62,7 +62,7 @@
       "additionalProperties": { "type": "string" }
     },
     "sharepointReference": {
-      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/SharePointReference",
+      "$ref": "./common.1.0.schema.json#/$defs/SharePointReference",
       "description": "Required when mode=PUSH_REFERENCE and the source is SharePoint/OneDrive."
     },
     "callbackUrl": {
