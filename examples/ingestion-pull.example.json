@@ -1,0 +1,17 @@
+{
+  "summary": "PULL mode – fetch a Fact Find PDF from a signed URL",
+  "value": {
+    "correlationId": "a1b2c3d4-0001-4000-8000-000000000001",
+    "clientRef": "CLIENT-0042",
+    "caseRef": "CASE-2026-0155",
+    "evidenceType": "FACT_FIND",
+    "mode": "PULL",
+    "documentDate": "2026-03-28T00:00:00Z",
+    "pullUrl": "https://camstorageaccount.blob.core.windows.net/uploads/fact-find-0042.pdf?sv=2023-01-03&se=2026-04-16T12%3A00%3A00Z&sr=b&sp=r&sig=REDACTED",
+    "callbackUrl": "https://cam-func-ejovh2nxzqvcg.azurewebsites.net/api/evidence/callback?code=REDACTED",
+    "metadata": {
+      "adviserRef": "ADV-007",
+      "source": "zapier-workflow"
+    }
+  }
+}

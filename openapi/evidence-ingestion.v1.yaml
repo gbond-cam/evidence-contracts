@@ -1,0 +1,205 @@
+openapi: "3.1.0"
+info:
+  title: Evidence Ingestion API
+  version: "1.0.0"
+  description: |
+    API for ingesting, validating, and indexing compliance evidence documents
+    (Fact Finds, ATR Risk Profiles, Suitability Reports, etc.) into the
+    Consilium FCA Vector Store.
+
+    Documents can be submitted in three modes:
+    - **PULL** – the service fetches the document from a URL you supply.
+    - **PUSH_INLINE** – you base64-encode the document in the request body.
+    - **PUSH_REFERENCE** – you supply a Microsoft Graph DriveItem reference
+      (SharePoint / OneDrive); the service fetches via the app's Graph permissions.
+
+    Asynchronous results are delivered either via webhook (`callbackUrl`) or
+    polled via the status endpoint.
+  contact:
+    name: Consilium Platform Team
+    email: platform@consilium.internal
+  license:
+    name: Proprietary
+
+servers:
+  - url: https://cam-func-ejovh2nxzqvcg.azurewebsites.net/api
+    description: Production (Azure Functions)
+  - url: http://localhost:7071/api
+    description: Local development
+
+security:
+  - functionKey: []
+
+paths:
+  /evidence/ingest:
+    post:
+      operationId: ingestEvidence
+      summary: Submit an evidence document for ingestion
+      description: |
+        Accepts a new ingestion job. The job is processed asynchronously.
+        Monitor progress via the status endpoint or supply a `callbackUrl`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IngestionRequest"
+            examples:
+              pull:
+                $ref: "#/components/examples/ingestion-pull"
+              pushInline:
+                $ref: "#/components/examples/ingestion-push-inline"
+              sharepointReference:
+                $ref: "#/components/examples/ingestion-reference-sharepoint"
+      responses:
+        "202":
+          description: Ingestion job accepted.
+          headers:
+            Location:
+              description: URL to poll for job status.
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IngestionStatus"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /evidence/{correlationId}/status:
+    get:
+      operationId: getIngestionStatus
+      summary: Poll the status of an ingestion job
+      parameters:
+        - name: correlationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Current job status.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IngestionStatus"
+              examples:
+                complete:
+                  $ref: "#/components/examples/content-complete"
+        "404":
+          description: No job found for the supplied correlationId.
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+  /evidence/{correlationId}:
+    delete:
+      operationId: deleteEvidence
+      summary: Remove an ingested evidence record and its search-index chunks
+      description: |
+        Permanently deletes the evidence item and all associated search-index
+        chunks. This action cannot be undone. A full audit entry is written to
+        Cosmos DB.
+      parameters:
+        - name: correlationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Evidence record deleted.
+        "404":
+          description: No record found for the supplied correlationId.
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "500":
+          $ref: "#/components/responses/InternalError"
+
+components:
+  securitySchemes:
+    functionKey:
+      type: apiKey
+      in: query
+      name: code
+      description: Azure Functions host key.
+
+  schemas:
+    IngestionRequest:
+      $ref: "./schemas/ingestion-request.1.0.schema.json"
+
+    IngestionStatus:
+      $ref: "./schemas/ingestion-status.1.0.schema.json"
+
+    EvidenceItemResult:
+      $ref: "./schemas/evidence-item-result.1.0.schema.json"
+
+    ValidationError:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        field:
+          type: string
+
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          format: uri
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationError"
+
+  responses:
+    BadRequest:
+      description: Request body failed schema validation.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+    Unauthorized:
+      description: Missing or invalid function key.
+    UnprocessableEntity:
+      description: Request was well-formed but failed business-rule validation.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+    InternalError:
+      description: Unexpected server error.
+      content:
+        application/problem+json:
+          schema:
+            $ref: "#/components/schemas/ProblemDetails"
+
+  examples:
+    ingestion-pull:
+      $ref: "../examples/ingestion-pull.example.json"
+    ingestion-push-inline:
+      $ref: "../examples/ingestion-push-inline.example.json"
+    ingestion-reference-sharepoint:
+      $ref: "../examples/ingestion-reference-sharepoint.example.json"
+    content-complete:
+      $ref: "../examples/content-complete.example.json"

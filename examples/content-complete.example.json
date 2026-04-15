@@ -1,0 +1,35 @@
+{
+  "summary": "Completed status response with accepted item results",
+  "value": {
+    "correlationId": "a1b2c3d4-0001-4000-8000-000000000001",
+    "clientRef": "CLIENT-0042",
+    "caseRef": "CASE-2026-0155",
+    "evidenceType": "FACT_FIND",
+    "status": "COMPLETE",
+    "createdAt": "2026-04-15T10:00:00Z",
+    "updatedAt": "2026-04-15T10:00:47Z",
+    "completedAt": "2026-04-15T10:00:47Z",
+    "itemResults": [
+      {
+        "itemId": "f1e2d3c4-b5a6-4789-8000-000000000099",
+        "evidenceType": "FACT_FIND",
+        "status": "ACCEPTED",
+        "piiLevel": "HIGH",
+        "mimeType": "application/pdf",
+        "fileSizeBytes": 245760,
+        "documentDate": "2026-03-28T00:00:00Z",
+        "rulesApplied": ["DOC_MUST_BE_VERIFIED", "DOC_MUST_BE_LEGIBLE", "DATE_MAX_AGE_365D"],
+        "rulesPassed": ["DOC_MUST_BE_VERIFIED", "DOC_MUST_BE_LEGIBLE", "DATE_MAX_AGE_365D"],
+        "rulesFailed": [],
+        "searchIndexId": "fact-find-CLIENT-0042-CASE-2026-0155-20260328",
+        "chunkCount": 14,
+        "errors": []
+      }
+    ],
+    "errors": [],
+    "metadata": {
+      "adviserRef": "ADV-007",
+      "source": "zapier-workflow"
+    }
+  }
+}

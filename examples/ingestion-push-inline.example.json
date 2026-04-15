@@ -1,0 +1,21 @@
+{
+  "summary": "PUSH_INLINE mode – base64-encoded ATR Risk Profile PDF",
+  "value": {
+    "correlationId": "a1b2c3d4-0002-4000-8000-000000000002",
+    "clientRef": "CLIENT-0042",
+    "caseRef": "CASE-2026-0155",
+    "evidenceType": "ATR_RISK_PROFILE",
+    "mode": "PUSH_INLINE",
+    "documentDate": "2026-04-01T00:00:00Z",
+    "inline": {
+      "mimeType": "application/pdf",
+      "fileName": "atr-risk-profile-client-0042.pdf",
+      "base64Content": "JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PAovVHlwZSAvQ2F0YWxvZwovUGFnZXMgMiAwIFIKPj4KZW5kb2JqCg=="
+    },
+    "callbackUrl": "https://cam-func-ejovh2nxzqvcg.azurewebsites.net/api/evidence/callback?code=REDACTED",
+    "metadata": {
+      "adviserRef": "ADV-007",
+      "source": "adviser-portal"
+    }
+  }
+}

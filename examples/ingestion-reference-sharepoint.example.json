@@ -1,0 +1,22 @@
+{
+  "summary": "PUSH_REFERENCE mode – reference a Suitability Report stored in SharePoint",
+  "value": {
+    "correlationId": "a1b2c3d4-0003-4000-8000-000000000003",
+    "clientRef": "CLIENT-0042",
+    "caseRef": "CASE-2026-0155",
+    "evidenceType": "SUITABILITY_REPORT",
+    "mode": "PUSH_REFERENCE",
+    "documentDate": "2026-04-10T13:00:00Z",
+    "sharepointReference": {
+      "siteId": "consiliumam.sharepoint.com,a1b2c3d4-aaaa-bbbb-cccc-000000000001,d5e6f7a8-dddd-eeee-ffff-000000000002",
+      "driveId": "b!abc123XYZdef456GHI789_abcdefghijklmnopqrstuvwxyz0123456789",
+      "itemId": "01ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+      "eTag": "\"{A1B2C3D4-0000-0000-0000-000000000001},42\""
+    },
+    "callbackUrl": "https://cam-func-ejovh2nxzqvcg.azurewebsites.net/api/evidence/callback?code=REDACTED",
+    "metadata": {
+      "adviserRef": "ADV-007",
+      "source": "sharepoint-sync"
+    }
+  }
+}

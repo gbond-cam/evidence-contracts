@@ -1,0 +1,63 @@
+extends: ["spectral:oas"]
+
+rules:
+  # ── Severity overrides ────────────────────────────────────────────────────
+  # Downgrade info-contact to warn (we have internal contacts, not public URLs)
+  info-contact: warn
+
+  # ── Custom rules ──────────────────────────────────────────────────────────
+  no-http-server-urls:
+    description: All server URLs must use HTTPS (except localhost).
+    severity: error
+    given: "$.servers[*].url"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "^http://(?!localhost)"
+
+  operation-tags-defined:
+    description: Every operation must declare at least one tag.
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete,options,head]"
+    then:
+      field: tags
+      function: truthy
+
+  operation-summary-max-length:
+    description: Operation summaries should be concise (≤ 80 characters).
+    severity: warn
+    given: "$.paths[*][get,post,put,patch,delete].summary"
+    then:
+      function: length
+      functionOptions:
+        max: 80
+
+  request-body-on-post:
+    description: POST operations should define a requestBody.
+    severity: warn
+    given: "$.paths[*].post"
+    then:
+      field: requestBody
+      function: truthy
+
+  response-error-schema:
+    description: 4xx and 5xx responses should reference a ProblemDetails schema.
+    severity: warn
+    given: "$.paths[*][*].responses[4XX,5XX].content['application/problem+json'].schema"
+    then:
+      function: truthy
+
+  schema-description:
+    description: All schema properties should have a description.
+    severity: warn
+    given: "$.components.schemas[*].properties[*]"
+    then:
+      field: description
+      function: truthy
+
+  correlation-id-header-response:
+    description: Success responses should include an X-Correlation-Id header.
+    severity: info
+    given: "$.paths[*][*].responses[200,201,202].headers"
+    then:
+      function: truthy

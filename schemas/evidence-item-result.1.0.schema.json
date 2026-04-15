@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.consilium.internal/evidence/evidence-item-result/1.0",
+  "title": "EvidenceItemResult",
+  "description": "Processing outcome for a single document within an ingestion job.",
+  "type": "object",
+  "required": ["itemId", "evidenceType", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "itemId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Service-assigned unique identifier for this evidence item within the index."
+    },
+    "evidenceType": {
+      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/EvidenceType"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ACCEPTED", "REJECTED", "SUPERSEDED"],
+      "description": "ACCEPTED: item passed all rules and was indexed. REJECTED: item failed one or more rules. SUPERSEDED: a newer item of the same type exists for this case."
+    },
+    "piiLevel": {
+      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/PiiLevel"
+    },
+    "mimeType": {
+      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/MimeType"
+    },
+    "fileSizeBytes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Byte size of the ingested document."
+    },
+    "documentDate": {
+      "oneOf": [
+        { "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ISO8601DateTime" },
+        { "type": "null" }
+      ]
+    },
+    "rulesApplied": {
+      "type": "array",
+      "description": "Ordered list of validation rule codes evaluated against this item.",
+      "items": { "type": "string" },
+      "example": ["DOC_MUST_BE_VERIFIED", "DOC_MUST_BE_LEGIBLE", "DATE_MAX_AGE_365D"]
+    },
+    "rulesPassed": {
+      "type": "array",
+      "description": "Rule codes from rulesApplied that the item passed.",
+      "items": { "type": "string" }
+    },
+    "rulesFailed": {
+      "type": "array",
+      "description": "Rule codes from rulesApplied that the item failed. Non-empty when status=REJECTED.",
+      "items": { "type": "string" }
+    },
+    "searchIndexId": {
+      "type": "string",
+      "description": "Azure AI Search document key. Present when status=ACCEPTED.",
+      "nullable": true
+    },
+    "chunkCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of semantic chunks indexed. Present when status=ACCEPTED."
+    },
+    "errors": {
+      "type": "array",
+      "description": "Validation errors. Non-empty when status=REJECTED.",
+      "items": {
+        "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ValidationError"
+      }
+    }
+  }
+}

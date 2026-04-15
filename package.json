@@ -1,0 +1,28 @@
+{
+  "name": "@consilium/evidence-contracts",
+  "version": "1.0.0",
+  "description": "Evidence Ingestion API contract — OpenAPI spec, JSON Schemas, examples, and tooling.",
+  "private": true,
+  "scripts": {
+    "validate": "node scripts-js/validate-examples.js",
+    "lint": "spectral lint openapi/evidence-ingestion.v1.yaml --ruleset tools/spectral.yaml",
+    "validate:all": "npm run lint && npm run validate"
+  },
+  "devDependencies": {
+    "@stoplight/spectral-cli": "^6.11.1",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  },
+  "files": [
+    "openapi/**",
+    "schemas/**",
+    "examples/**",
+    "docs/**"
+  ],
+  "keywords": ["fca", "compliance", "evidence", "openapi", "json-schema"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gbond-cam/fca-vector-store.git",
+    "directory": "Packages/evidence-contracts"
+  }
+}

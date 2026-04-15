@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.consilium.internal/evidence/common/1.0",
+  "title": "Common Definitions",
+  "description": "Shared type definitions reused across evidence-ingestion schemas.",
+  "$defs": {
+    "CorrelationId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "RFC 4122 UUID used to correlate requests, webhooks, and audit log entries."
+    },
+    "ClientRef": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "description": "Opaque client identifier within the adviser CRM."
+    },
+    "CaseRef": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "description": "Opaque case/suitability-review identifier."
+    },
+    "EvidenceType": {
+      "type": "string",
+      "enum": [
+        "FACT_FIND",
+        "ATR_RISK_PROFILE",
+        "CLIENT_OBJECTIVES",
+        "FEES_AND_CHARGES_AGREEMENT",
+        "PRODUCT_KFI_KEY_FEATURES",
+        "CEDING_STATEMENT",
+        "TRANSFER_AUTHORITY_OR_INSTRUCTION",
+        "SUITABILITY_REPORT",
+        "MEETING_NOTES",
+        "ID_VERIFICATION",
+        "PROOF_OF_ADDRESS",
+        "OTHER"
+      ],
+      "description": "Controlled vocabulary of evidence types drawn from evidence_profiles.v1.json."
+    },
+    "MimeType": {
+      "type": "string",
+      "enum": [
+        "application/pdf",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "image/jpeg",
+        "image/png",
+        "text/plain"
+      ]
+    },
+    "PiiLevel": {
+      "type": "string",
+      "enum": ["NONE", "LOW", "MEDIUM", "HIGH"],
+      "description": "Data sensitivity classification."
+    },
+    "IngestionMode": {
+      "type": "string",
+      "enum": ["PULL", "PUSH_INLINE", "PUSH_REFERENCE"],
+      "description": "How the document content reaches the ingestion service."
+    },
+    "IngestionStatus": {
+      "type": "string",
+      "enum": [
+        "PENDING",
+        "DOWNLOADING",
+        "VALIDATING",
+        "INDEXING",
+        "COMPLETE",
+        "FAILED",
+        "REJECTED"
+      ]
+    },
+    "ISO8601DateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp in ISO 8601 format, e.g. 2026-04-15T10:30:00Z."
+    },
+    "ValidationError": {
+      "type": "object",
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Machine-readable error code, e.g. DOC_MUST_BE_LEGIBLE."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable description."
+        },
+        "field": {
+          "type": "string",
+          "description": "JSON Pointer (RFC 6901) to the offending field, if applicable."
+        }
+      }
+    },
+    "SharePointReference": {
+      "type": "object",
+      "required": ["driveId", "itemId"],
+      "properties": {
+        "driveId": {
+          "type": "string",
+          "description": "Microsoft Graph Drive ID."
+        },
+        "itemId": {
+          "type": "string",
+          "description": "Microsoft Graph DriveItem ID."
+        },
+        "siteId": {
+          "type": "string",
+          "description": "Microsoft Graph Site ID (optional; aids routing in multi-tenancy)."
+        },
+        "eTag": {
+          "type": "string",
+          "description": "Graph item eTag for optimistic concurrency; if supplied the service will re-fetch only when changed."
+        }
+      }
+    }
+  }
+}

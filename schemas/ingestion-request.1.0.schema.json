@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.consilium.internal/evidence/ingestion-request/1.0",
+  "title": "EvidenceIngestionRequest",
+  "description": "Payload submitted to POST /api/evidence/ingest to trigger evidence ingestion.",
+  "type": "object",
+  "required": ["correlationId", "clientRef", "caseRef", "evidenceType", "mode"],
+  "additionalProperties": false,
+  "properties": {
+    "correlationId": {
+      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/CorrelationId"
+    },
+    "clientRef": {
+      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ClientRef"
+    },
+    "caseRef": {
+      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/CaseRef"
+    },
+    "evidenceType": {
+      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/EvidenceType"
+    },
+    "mode": {
+      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/IngestionMode"
+    },
+    "documentDate": {
+      "oneOf": [
+        { "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ISO8601DateTime" },
+        { "type": "null" }
+      ],
+      "description": "Date the document was produced or signed. Used to evaluate date-age rules (e.g. DATE_MAX_AGE_365D)."
+    },
+    "inline": {
+      "description": "Required when mode=PUSH_INLINE. Base64-encoded document bytes.",
+      "type": "object",
+      "required": ["mimeType", "base64Content"],
+      "additionalProperties": false,
+      "properties": {
+        "mimeType": {
+          "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/MimeType"
+        },
+        "base64Content": {
+          "type": "string",
+          "contentEncoding": "base64",
+          "description": "Base64 (RFC 4648) encoded document bytes. Maximum decoded size: 20 MB."
+        },
+        "fileName": {
+          "type": "string",
+          "maxLength": 260,
+          "description": "Original file name for audit purposes."
+        }
+      }
+    },
+    "pullUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "Required when mode=PULL. The service will perform an authenticated HTTP GET to retrieve the document. Must be HTTPS.",
+      "pattern": "^https://"
+    },
+    "pullHeaders": {
+      "type": "object",
+      "description": "Optional HTTP headers to include when fetching pullUrl (e.g. Authorization). Values are resolved from Key Vault references at runtime.",
+      "additionalProperties": { "type": "string" }
+    },
+    "sharepointReference": {
+      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/SharePointReference",
+      "description": "Required when mode=PUSH_REFERENCE and the source is SharePoint/OneDrive."
+    },
+    "callbackUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "Optional webhook URL to receive ingestion status updates. Must be HTTPS.",
+      "pattern": "^https://"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Arbitrary key-value metadata attached to the ingestion job; returned verbatim in status responses.",
+      "additionalProperties": { "type": "string" },
+      "maxProperties": 20
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "mode": { "const": "PUSH_INLINE" } } },
+      "then": { "required": ["inline"] }
+    },
+    {
+      "if": { "properties": { "mode": { "const": "PULL" } } },
+      "then": { "required": ["pullUrl"] }
+    },
+    {
+      "if": { "properties": { "mode": { "const": "PUSH_REFERENCE" } } },
+      "then": { "required": ["sharepointReference"] }
+    }
+  ]
+}

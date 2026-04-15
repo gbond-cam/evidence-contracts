@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.consilium.internal/evidence/ingestion-status/1.0",
+  "title": "EvidenceIngestionStatus",
+  "description": "Status payload returned by GET /api/evidence/{correlationId}/status and delivered to callbackUrl webhooks.",
+  "type": "object",
+  "required": ["correlationId", "clientRef", "caseRef", "evidenceType", "status", "createdAt", "updatedAt"],
+  "additionalProperties": false,
+  "properties": {
+    "correlationId": {
+      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/CorrelationId"
+    },
+    "clientRef": {
+      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ClientRef"
+    },
+    "caseRef": {
+      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/CaseRef"
+    },
+    "evidenceType": {
+      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/EvidenceType"
+    },
+    "status": {
+      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/IngestionStatus"
+    },
+    "createdAt": {
+      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ISO8601DateTime"
+    },
+    "updatedAt": {
+      "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ISO8601DateTime"
+    },
+    "completedAt": {
+      "oneOf": [
+        { "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ISO8601DateTime" },
+        { "type": "null" }
+      ]
+    },
+    "itemResults": {
+      "type": "array",
+      "description": "Per-document processing results. Populated once status reaches COMPLETE, FAILED, or REJECTED.",
+      "items": {
+        "$ref": "https://contracts.consilium.internal/evidence/evidence-item-result/1.0"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "description": "Validation or processing errors. Non-empty when status is FAILED or REJECTED.",
+      "items": {
+        "$ref": "https://contracts.consilium.internal/evidence/common/1.0#/$defs/ValidationError"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Metadata echoed from the originating request.",
+      "additionalProperties": { "type": "string" }
+    },
+    "webhookAttempt": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Present only in webhook deliveries. Indicates the 1-based delivery attempt number (max 5, with exponential back-off)."
+    }
+  }
+}
