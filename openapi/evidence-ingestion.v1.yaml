@@ -136,13 +136,13 @@ components:
 
   schemas:
     IngestionRequest:
-      $ref: "./schemas/ingestion-request.1.0.schema.json"
+      $ref: "../schemas/ingestion-request.1.0.schema.json"
 
     IngestionStatus:
-      $ref: "./schemas/ingestion-status.1.0.schema.json"
+      $ref: "../schemas/ingestion-status.1.0.schema.json"
 
     EvidenceItemResult:
-      $ref: "./schemas/evidence-item-result.1.0.schema.json"
+      $ref: "../schemas/evidence-item-result.1.0.schema.json"
 
     ValidationError:
       type: object
