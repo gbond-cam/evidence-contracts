@@ -1,0 +1,102 @@
+{
+  "name": "@consilium/evidence-contracts",
+  "version": "1.0.0",
+  "artefactCount": 19,
+  "artefacts": [
+    {
+      "path": "examples/content-complete.example.json",
+      "sha256": "e08268aef370cd07f4768c41b5ad156bf14f6a5195126588b5a350790fd6f333",
+      "sizeBytes": 1194
+    },
+    {
+      "path": "examples/evidence-client-identity.example.json",
+      "sha256": "17189fc2f7b63dfa5297df741d79395a922390b2b0a16050e6deb9780f75c21c",
+      "sizeBytes": 780
+    },
+    {
+      "path": "examples/evidence-risk-profile.example.json",
+      "sha256": "156aae654e21cf3c66b6be2aa8e74447d6617122d33adfc5bf43c9d9ff3006b6",
+      "sizeBytes": 676
+    },
+    {
+      "path": "examples/ingestion-pull.example.json",
+      "sha256": "4b1d9331e58edeea5b5d6ec500228e66d0a5f21022ec9606918cdc08eaff9046",
+      "sizeBytes": 685
+    },
+    {
+      "path": "examples/ingestion-push-inline.example.json",
+      "sha256": "3fffeb538ae2cca262ce6b3d83100bb6c4af60c86da597f20011deef4cd48edb",
+      "sizeBytes": 775
+    },
+    {
+      "path": "examples/ingestion-reference-sharepoint.example.json",
+      "sha256": "58f7228d7cf2a599c7d4d79302e540840fe3e5b0d5fbe7285c607ecf399f2c50",
+      "sizeBytes": 930
+    },
+    {
+      "path": "openapi/evidence-ingestion.v1.yaml",
+      "sha256": "d62630fd9be968c4313cdea6932f4b0034d294fc811059c1454d5ec6132b2f77",
+      "sizeBytes": 7302
+    },
+    {
+      "path": "profiles/evidence-profiles/client-identity.json",
+      "sha256": "e52fe36ae0eec91349fe3bf58a3249895a6c5f012b66454f39fdce6770ca6fcc",
+      "sizeBytes": 2369
+    },
+    {
+      "path": "profiles/evidence-profiles/risk-profile.json",
+      "sha256": "da10d40fe8e35879f3d954497a55d1f67ad52e33b247e26e99c026eacd056d2b",
+      "sizeBytes": 1937
+    },
+    {
+      "path": "profiles/report-types/ISA_New_v1.json",
+      "sha256": "b2514c5a32b165015342bd7d93a5d106a399a44fcc1ae06a0c08bc53b554bf60",
+      "sizeBytes": 2722
+    },
+    {
+      "path": "profiles/report-types/ISA_Transfer_Cash_v1.json",
+      "sha256": "f36d202a3d91fe05e6070eee2da037170633bf79db82baac5afb754ae8ace5fe",
+      "sizeBytes": 2207
+    },
+    {
+      "path": "registry/schema-registry.json",
+      "sha256": "e39dabf034f267ac6627785a8b357f8e38f693c510642743fd5bf957767987a9",
+      "sizeBytes": 1869
+    },
+    {
+      "path": "registry/template-registry.json",
+      "sha256": "453d8702207cfc7fa823a4839543d13c03e913c78f4ec2d3b91989697682c315",
+      "sizeBytes": 1528
+    },
+    {
+      "path": "schemas/common.1.0.schema.json",
+      "sha256": "5a8b0111129fd8190700ecd0df904e392a3c77e533f4503e7bd710ea1c317677",
+      "sizeBytes": 3993
+    },
+    {
+      "path": "schemas/evidence-client-identity/1.0/schema.json",
+      "sha256": "2fffd9ab5fbd2cb842154e4d9641d0029e2f02979d9e819ad5fbbcba5732250b",
+      "sizeBytes": 4429
+    },
+    {
+      "path": "schemas/evidence-item-result.1.0.schema.json",
+      "sha256": "c37564d8ae3a6c43dd67c0405f937936a0e9413ee3b301a5262b60750f93d8b0",
+      "sizeBytes": 2711
+    },
+    {
+      "path": "schemas/evidence-risk-profile/1.0/schema.json",
+      "sha256": "6ede4fc7e8bb6d99e53aa2c599d4cb137276e1737c6c322c62808572e6124a1e",
+      "sizeBytes": 2832
+    },
+    {
+      "path": "schemas/ingestion-request.1.0.schema.json",
+      "sha256": "094ce1ec356040536a3ae74c624af5c40334f855178976621d5f93c2d43ea495",
+      "sizeBytes": 3492
+    },
+    {
+      "path": "schemas/ingestion-status.1.0.schema.json",
+      "sha256": "3ae9d070c0fb01a111055ea8273c0d9fdf41d82820c686e2de15ba1e97e0fa6b",
+      "sizeBytes": 2341
+    }
+  ]
+}

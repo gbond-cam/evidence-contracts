@@ -74,7 +74,6 @@ const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf8"))
 const manifest = {
   name: pkg.name,
   version: pkg.version,
-  generatedAt: new Date().toISOString(),
   artefactCount: entries.length,
   artefacts: entries,
 };
