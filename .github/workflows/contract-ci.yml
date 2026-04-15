@@ -36,6 +36,9 @@ jobs:
       - name: Validate examples against schemas
         run: node scripts-js/validate-examples.js
 
+      - name: Validate contract structure
+        run: node tools/validate-contracts.js
+
   breaking-change-check:
     name: Breaking Change Check
     runs-on: ubuntu-latest
