@@ -1,0 +1,61 @@
+{
+  "$schema": "../../tools/meta-schemas/evidence-profile.schema.json",
+  "evidenceType": "ID_VERIFICATION",
+  "version": "1.0",
+  "description": "Validation profile for client identity verification documents. Governs KYC/AML rules applied during evidence ingestion under the Money Laundering, Terrorist Financing and Transfer of Funds Regulations 2017.",
+  "piiLevel": "HIGH",
+  "maxAgeInDays": null,
+  "acceptedMimeTypes": [
+    "application/pdf",
+    "image/jpeg",
+    "image/png"
+  ],
+  "maxFileSizeBytes": 20971520,
+  "rules": [
+    {
+      "code": "DOC_MUST_BE_LEGIBLE",
+      "description": "Document image or scan must be clear, unobstructed, and all text must be readable.",
+      "severity": "REJECT",
+      "automated": true
+    },
+    {
+      "code": "DOCUMENT_MUST_NOT_BE_EXPIRED",
+      "description": "The identity document must not be past its expiry date at the point of verification.",
+      "severity": "REJECT",
+      "automated": true
+    },
+    {
+      "code": "DOCUMENT_TYPE_MUST_BE_ACCEPTED",
+      "description": "Document type must be one of the accepted primary identity document types (see documentType enum).",
+      "severity": "REJECT",
+      "automated": true
+    },
+    {
+      "code": "VERIFICATION_METHOD_MUST_BE_RECORDED",
+      "description": "The method used to verify the document (in-person, electronic, video) must be explicitly recorded.",
+      "severity": "REJECT",
+      "automated": false
+    },
+    {
+      "code": "PEP_SANCTIONS_CHECK_REQUIRED",
+      "description": "A PEP and sanctions screening check must be on file and must return CLEAR or have a documented rationale for a POSSIBLE_MATCH.",
+      "severity": "REJECT",
+      "automated": false
+    },
+    {
+      "code": "PROOF_OF_ADDRESS_REQUIRED",
+      "description": "Proof of address document must accompany primary identity — dated within 3 months for utility bills and bank statements.",
+      "severity": "WARN",
+      "automated": false
+    },
+    {
+      "code": "ELECTRONIC_VERIFICATION_REF_REQUIRED",
+      "description": "Where verificationMethod=ELECTRONIC_VERIFICATION, a provider reference number must be recorded.",
+      "severity": "WARN",
+      "automated": true
+    }
+  ],
+  "retentionPolicyYears": 5,
+  "createdAt": "2026-04-15T00:00:00Z",
+  "updatedAt": "2026-04-15T00:00:00Z"
+}

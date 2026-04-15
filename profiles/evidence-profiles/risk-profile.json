@@ -1,0 +1,54 @@
+{
+  "$schema": "../../tools/meta-schemas/evidence-profile.schema.json",
+  "evidenceType": "ATR_RISK_PROFILE",
+  "version": "1.0",
+  "description": "Validation profile for Attitude-to-Risk (ATR) profiling documents. Governs the rules applied during evidence ingestion for this document type.",
+  "piiLevel": "HIGH",
+  "maxAgeInDays": 365,
+  "acceptedMimeTypes": [
+    "application/pdf",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  ],
+  "maxFileSizeBytes": 10485760,
+  "rules": [
+    {
+      "code": "DOC_MUST_BE_LEGIBLE",
+      "description": "Document must be readable and not corrupt or password-protected.",
+      "severity": "REJECT",
+      "automated": true
+    },
+    {
+      "code": "DOC_MUST_BE_VERIFIED",
+      "description": "Document must bear an adviser signature or electronic equivalent confirming the assessment was conducted.",
+      "severity": "REJECT",
+      "automated": false
+    },
+    {
+      "code": "DATE_MAX_AGE_365D",
+      "description": "Assessment date must be within 365 days of the ingestion request date.",
+      "severity": "REJECT",
+      "automated": true
+    },
+    {
+      "code": "RISK_BAND_MUST_BE_PRESENT",
+      "description": "A valid risk band must be extractable from the document.",
+      "severity": "REJECT",
+      "automated": true
+    },
+    {
+      "code": "CAPACITY_FOR_LOSS_MUST_BE_DOCUMENTED",
+      "description": "Capacity for loss assessment (low/medium/high) must be explicitly documented per FCA COBS 9.2.",
+      "severity": "WARN",
+      "automated": false
+    },
+    {
+      "code": "QUESTIONNAIRE_REF_MUST_BE_PRESENT",
+      "description": "The ATR questionnaire product or version reference must be identifiable.",
+      "severity": "WARN",
+      "automated": true
+    }
+  ],
+  "retentionPolicyYears": 7,
+  "createdAt": "2026-04-15T00:00:00Z",
+  "updatedAt": "2026-04-15T00:00:00Z"
+}

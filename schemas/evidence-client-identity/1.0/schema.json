@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.consilium.internal/evidence/evidence-client-identity/1.0",
+  "title": "EvidenceClientIdentity",
+  "description": "Structured content extracted from a client identity verification document. Supports KYC/AML requirements under the Money Laundering Regulations 2017.",
+  "type": "object",
+  "required": ["itemId", "clientRef", "documentType", "documentNumber", "verifiedAt", "verificationMethod"],
+  "additionalProperties": false,
+  "properties": {
+    "itemId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Service-assigned unique identifier for this evidence item within the index."
+    },
+    "clientRef": {
+      "$ref": "../../common.1.0.schema.json#/$defs/ClientRef"
+    },
+    "documentType": {
+      "type": "string",
+      "enum": [
+        "PASSPORT",
+        "UK_DRIVING_LICENCE",
+        "EU_NATIONAL_ID_CARD",
+        "BIOMETRIC_RESIDENCE_PERMIT",
+        "BIRTH_CERTIFICATE",
+        "OTHER_GOVERNMENT_ID"
+      ],
+      "description": "Category of primary identity document presented."
+    },
+    "documentNumber": {
+      "type": "string",
+      "maxLength": 64,
+      "description": "Redacted or tokenised document reference number (e.g. passport number). Must not store full number in plain text."
+    },
+    "issuingCountry": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "ISO 3166-1 alpha-2 country code of the issuing authority."
+    },
+    "documentExpiryDate": {
+      "oneOf": [
+        { "type": "string", "format": "date" },
+        { "type": "null" }
+      ],
+      "description": "Expiry date of the identity document (ISO 8601 date). Null for documents without expiry (e.g. birth certificate)."
+    },
+    "verifiedAt": {
+      "$ref": "../../common.1.0.schema.json#/$defs/ISO8601DateTime",
+      "description": "Timestamp when identity was verified."
+    },
+    "verificationMethod": {
+      "type": "string",
+      "enum": ["IN_PERSON", "CERTIFIED_COPY", "ELECTRONIC_VERIFICATION", "VIDEO_VERIFICATION"],
+      "description": "Method used to verify the document (in-person, certified copy, electronic check, or synchronous video)."
+    },
+    "electronicVerificationRef": {
+      "type": "string",
+      "description": "Reference number from electronic verification provider (e.g. Experian, Onfido). Present when verificationMethod=ELECTRONIC_VERIFICATION.",
+      "maxLength": 128
+    },
+    "addressVerification": {
+      "type": "object",
+      "description": "Proof-of-address details, if captured alongside identity.",
+      "required": ["documentType", "verifiedAt"],
+      "additionalProperties": false,
+      "properties": {
+        "documentType": {
+          "type": "string",
+          "enum": ["BANK_STATEMENT", "UTILITY_BILL", "COUNCIL_TAX", "HMRC_CORRESPONDENCE", "MORTGAGE_STATEMENT", "OTHER"],
+          "description": "Type of proof-of-address document."
+        },
+        "verifiedAt": {
+          "$ref": "../../common.1.0.schema.json#/$defs/ISO8601DateTime",
+          "description": "Timestamp when the address document was verified."
+        },
+        "documentDate": {
+          "oneOf": [
+            { "type": "string", "format": "date" },
+            { "type": "null" }
+          ],
+          "description": "Issue date on the address document. Must be within 3 months for most document types."
+        }
+      }
+    },
+    "pepSanctionsCheck": {
+      "type": "object",
+      "description": "Politically Exposed Person and sanctions screening result.",
+      "required": ["checkedAt", "result"],
+      "additionalProperties": false,
+      "properties": {
+        "checkedAt": {
+          "$ref": "../../common.1.0.schema.json#/$defs/ISO8601DateTime",
+          "description": "Timestamp of the PEP/sanctions screening."
+        },
+        "result": {
+          "type": "string",
+          "enum": ["CLEAR", "POSSIBLE_MATCH", "CONFIRMED_MATCH"],
+          "description": "Outcome of the PEP/sanctions check."
+        },
+        "providerRef": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Reference from the screening provider (e.g. Dow Jones, LexisNexis)."
+        }
+      }
+    },
+    "piiLevel": {
+      "$ref": "../../common.1.0.schema.json#/$defs/PiiLevel"
+    }
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.consilium.internal/meta/report-type-profile/1.0",
+  "title": "ReportTypeProfileMeta",
+  "description": "Meta-schema for report-type profile files (profiles/report-types/*.json). Defines the required and optional evidence types for a specific advice/transaction report type.",
+  "type": "object",
+  "required": ["reportType", "version", "description", "regulatoryBasis", "evidenceRequirements", "createdAt", "updatedAt"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema URI — should reference this meta-schema."
+    },
+    "reportType": {
+      "type": "string",
+      "description": "Unique identifier for this report/transaction type (e.g. ISA_Transfer_Cash, ISA_New).",
+      "pattern": "^[A-Za-z0-9_]+$"
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of this profile (e.g. 1, 2)."
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of this report type and its regulatory context."
+    },
+    "regulatoryBasis": {
+      "type": "array",
+      "description": "List of regulatory references (FCA rules, legislation) underpinning the evidence requirements.",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "evidenceRequirements": {
+      "type": "array",
+      "description": "Evidence documents that must be present and compliant before this report type is processed.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["evidenceType", "required", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "evidenceType": {
+            "type": "string",
+            "description": "The EvidenceType enum value required.",
+            "enum": [
+              "FACT_FIND", "ATR_RISK_PROFILE", "CLIENT_OBJECTIVES",
+              "FEES_AND_CHARGES_AGREEMENT", "PRODUCT_KFI_KEY_FEATURES",
+              "CEDING_STATEMENT", "TRANSFER_AUTHORITY_OR_INSTRUCTION",
+              "SUITABILITY_REPORT", "MEETING_NOTES", "ID_VERIFICATION",
+              "PROOF_OF_ADDRESS", "OTHER"
+            ]
+          },
+          "required": {
+            "type": "boolean",
+            "description": "True if this evidence type is mandatory for this report."
+          },
+          "maxAgeInDays": {
+            "oneOf": [
+              { "type": "integer", "minimum": 1 },
+              { "type": "null" }
+            ],
+            "description": "Maximum acceptable age of the evidence document in days. Null means no age restriction."
+          },
+          "description": {
+            "type": "string",
+            "description": "Explanation of why this evidence is required for this report type."
+          },
+          "profileRef": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "null" }
+            ],
+            "description": "Relative path to the evidence-profile JSON for this evidence type, if one exists."
+          }
+        }
+      }
+    },
+    "optionalEvidence": {
+      "type": "array",
+      "description": "Evidence documents that are useful but not required for this report type.",
+      "items": {
+        "type": "object",
+        "required": ["evidenceType", "description"],
+        "additionalProperties": false,
+        "properties": {
+          "evidenceType": {
+            "type": "string",
+            "description": "The EvidenceType enum value.",
+            "enum": [
+              "FACT_FIND", "ATR_RISK_PROFILE", "CLIENT_OBJECTIVES",
+              "FEES_AND_CHARGES_AGREEMENT", "PRODUCT_KFI_KEY_FEATURES",
+              "CEDING_STATEMENT", "TRANSFER_AUTHORITY_OR_INSTRUCTION",
+              "SUITABILITY_REPORT", "MEETING_NOTES", "ID_VERIFICATION",
+              "PROOF_OF_ADDRESS", "OTHER"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "description": "Explanation of when this optional evidence is useful."
+          }
+        }
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when this profile was first published."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the most recent update to this profile."
+    }
+  }
+}

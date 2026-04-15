@@ -1,0 +1,46 @@
+{
+  "$schema": "../tools/meta-schemas/template-registry.schema.json",
+  "description": "Central registry of all published report-type profiles. Maps each report type to its required and optional evidence, enabling the ingestion service and front-end to perform pre-submission completeness checks.",
+  "generatedAt": "2026-04-15T00:00:00Z",
+  "version": "1.0.0",
+  "entries": [
+    {
+      "reportType": "ISA_Transfer_Cash",
+      "version": "1",
+      "path": "profiles/report-types/ISA_Transfer_Cash_v1.json",
+      "description": "Cash ISA transfer to Consilium-managed ISA wrapper.",
+      "status": "STABLE",
+      "requiredEvidenceTypes": [
+        "ATR_RISK_PROFILE",
+        "FACT_FIND",
+        "SUITABILITY_REPORT",
+        "ID_VERIFICATION",
+        "FEES_AND_CHARGES_AGREEMENT"
+      ],
+      "optionalEvidenceTypes": [
+        "MEETING_NOTES",
+        "CEDING_STATEMENT"
+      ]
+    },
+    {
+      "reportType": "ISA_New",
+      "version": "1",
+      "path": "profiles/report-types/ISA_New_v1.json",
+      "description": "New stocks-and-shares ISA subscription for the current tax year.",
+      "status": "STABLE",
+      "requiredEvidenceTypes": [
+        "ATR_RISK_PROFILE",
+        "FACT_FIND",
+        "SUITABILITY_REPORT",
+        "ID_VERIFICATION",
+        "CLIENT_OBJECTIVES",
+        "FEES_AND_CHARGES_AGREEMENT",
+        "PRODUCT_KFI_KEY_FEATURES"
+      ],
+      "optionalEvidenceTypes": [
+        "MEETING_NOTES",
+        "PROOF_OF_ADDRESS"
+      ]
+    }
+  ]
+}

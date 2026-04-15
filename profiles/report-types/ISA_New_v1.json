@@ -1,0 +1,70 @@
+{
+  "$schema": "../../tools/meta-schemas/report-type-profile.schema.json",
+  "reportType": "ISA_New",
+  "version": "1",
+  "description": "New stocks-and-shares ISA subscription for the current tax year. Client subscribes directly to a Consilium-managed ISA wrapper. All required evidence must be present and compliant before the subscription is processed.",
+  "regulatoryBasis": ["FCA COBS 9", "FCA COBS 9A", "ISA Regulations 1998 (SI 1998/1870)"],
+  "evidenceRequirements": [
+    {
+      "evidenceType": "ATR_RISK_PROFILE",
+      "required": true,
+      "maxAgeInDays": 365,
+      "description": "Current risk profile must be on file and dated within the last 12 months.",
+      "profileRef": "profiles/evidence-profiles/risk-profile.json"
+    },
+    {
+      "evidenceType": "FACT_FIND",
+      "required": true,
+      "maxAgeInDays": 365,
+      "description": "Up-to-date fact find confirming client objectives, circumstances, and financial position.",
+      "profileRef": null
+    },
+    {
+      "evidenceType": "SUITABILITY_REPORT",
+      "required": true,
+      "maxAgeInDays": 90,
+      "description": "Suitability report recommending the ISA subscription, dated within 90 days of submission.",
+      "profileRef": null
+    },
+    {
+      "evidenceType": "ID_VERIFICATION",
+      "required": true,
+      "maxAgeInDays": null,
+      "description": "Valid KYC identity verification and proof of address (HMRC requirement for ISA subscriptions).",
+      "profileRef": "profiles/evidence-profiles/client-identity.json"
+    },
+    {
+      "evidenceType": "CLIENT_OBJECTIVES",
+      "required": true,
+      "maxAgeInDays": 365,
+      "description": "Documented client investment objectives supporting the ISA strategy.",
+      "profileRef": null
+    },
+    {
+      "evidenceType": "FEES_AND_CHARGES_AGREEMENT",
+      "required": true,
+      "maxAgeInDays": null,
+      "description": "Signed fees and charges disclosure (COBS 6.1A) must be on file.",
+      "profileRef": null
+    },
+    {
+      "evidenceType": "PRODUCT_KFI_KEY_FEATURES",
+      "required": true,
+      "maxAgeInDays": 90,
+      "description": "Key Features Illustration (KFI) or Key Information Document (KID) for the ISA wrapper.",
+      "profileRef": null
+    }
+  ],
+  "optionalEvidence": [
+    {
+      "evidenceType": "MEETING_NOTES",
+      "description": "Notes from the advice meeting at which the ISA subscription was recommended."
+    },
+    {
+      "evidenceType": "PROOF_OF_ADDRESS",
+      "description": "Standalone proof-of-address document where not captured within ID_VERIFICATION."
+    }
+  ],
+  "createdAt": "2026-04-15T00:00:00Z",
+  "updatedAt": "2026-04-15T00:00:00Z"
+}

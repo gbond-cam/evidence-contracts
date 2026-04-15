@@ -1,0 +1,50 @@
+{
+  "$schema": "../tools/meta-schemas/schema-registry.schema.json",
+  "description": "Central registry of all published JSON Schemas. Used by the ingestion service, validation tooling, and consumer SDKs to resolve contracts by $id.",
+  "generatedAt": "2026-04-15T00:00:00Z",
+  "version": "1.0.0",
+  "entries": [
+    {
+      "id": "https://contracts.consilium.internal/evidence/common/1.0",
+      "title": "Common Definitions",
+      "path": "schemas/common.1.0.schema.json",
+      "latestVersion": "1.0",
+      "status": "STABLE"
+    },
+    {
+      "id": "https://contracts.consilium.internal/evidence/ingestion-request/1.0",
+      "title": "EvidenceIngestionRequest",
+      "path": "schemas/ingestion-request.1.0.schema.json",
+      "latestVersion": "1.0",
+      "status": "STABLE"
+    },
+    {
+      "id": "https://contracts.consilium.internal/evidence/ingestion-status/1.0",
+      "title": "EvidenceIngestionStatus",
+      "path": "schemas/ingestion-status.1.0.schema.json",
+      "latestVersion": "1.0",
+      "status": "STABLE"
+    },
+    {
+      "id": "https://contracts.consilium.internal/evidence/evidence-item-result/1.0",
+      "title": "EvidenceItemResult",
+      "path": "schemas/evidence-item-result.1.0.schema.json",
+      "latestVersion": "1.0",
+      "status": "STABLE"
+    },
+    {
+      "id": "https://contracts.consilium.internal/evidence/evidence-risk-profile/1.0",
+      "title": "EvidenceRiskProfile",
+      "path": "schemas/evidence-risk-profile/1.0/schema.json",
+      "latestVersion": "1.0",
+      "status": "STABLE"
+    },
+    {
+      "id": "https://contracts.consilium.internal/evidence/evidence-client-identity/1.0",
+      "title": "EvidenceClientIdentity",
+      "path": "schemas/evidence-client-identity/1.0/schema.json",
+      "latestVersion": "1.0",
+      "status": "STABLE"
+    }
+  ]
+}

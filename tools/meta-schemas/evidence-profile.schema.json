@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.consilium.internal/meta/evidence-profile/1.0",
+  "title": "EvidenceProfileMeta",
+  "description": "Meta-schema for evidence profile files (profiles/evidence-profiles/*.json). Defines the validation rules and configuration for a single evidence type.",
+  "type": "object",
+  "required": ["evidenceType", "version", "description", "piiLevel", "rules", "retentionPolicyYears", "createdAt", "updatedAt"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema URI — should reference this meta-schema."
+    },
+    "evidenceType": {
+      "type": "string",
+      "description": "The EvidenceType enum value this profile governs.",
+      "enum": [
+        "FACT_FIND", "ATR_RISK_PROFILE", "CLIENT_OBJECTIVES",
+        "FEES_AND_CHARGES_AGREEMENT", "PRODUCT_KFI_KEY_FEATURES",
+        "CEDING_STATEMENT", "TRANSFER_AUTHORITY_OR_INSTRUCTION",
+        "SUITABILITY_REPORT", "MEETING_NOTES", "ID_VERIFICATION",
+        "PROOF_OF_ADDRESS", "OTHER"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version of this profile definition.",
+      "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of this profile and its regulatory context."
+    },
+    "piiLevel": {
+      "type": "string",
+      "enum": ["NONE", "LOW", "MEDIUM", "HIGH"],
+      "description": "Data sensitivity classification for documents of this type."
+    },
+    "maxAgeInDays": {
+      "oneOf": [
+        { "type": "integer", "minimum": 1 },
+        { "type": "null" }
+      ],
+      "description": "Maximum acceptable age of the document in days. Null means no age restriction."
+    },
+    "acceptedMimeTypes": {
+      "type": "array",
+      "description": "MIME types accepted for this evidence type.",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "maxFileSizeBytes": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum permitted file size in bytes."
+    },
+    "rules": {
+      "type": "array",
+      "description": "Ordered list of validation rules applied during ingestion.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["code", "description", "severity", "automated"],
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Machine-readable rule identifier (e.g. DOC_MUST_BE_LEGIBLE).",
+            "pattern": "^[A-Z0-9_]+$"
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable explanation of what the rule checks."
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["REJECT", "WARN", "INFO"],
+            "description": "REJECT: failure causes document rejection. WARN: advisory only. INFO: informational."
+          },
+          "automated": {
+            "type": "boolean",
+            "description": "True if the rule is checked automatically by the ingestion service; false if adviser must assert compliance."
+          }
+        }
+      }
+    },
+    "retentionPolicyYears": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Minimum retention period in years under FCA record-keeping rules."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when this profile was first published."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the most recent update to this profile."
+    }
+  }
+}

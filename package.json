@@ -5,8 +5,11 @@
   "private": true,
   "scripts": {
     "validate": "node scripts-js/validate-examples.js",
+    "validate:contracts": "node tools/validate-contracts.js",
     "lint": "spectral lint openapi/evidence-ingestion.v1.yaml --ruleset tools/spectral.yaml",
-    "validate:all": "npm run lint && npm run validate"
+    "validate:all": "npm run lint && npm run validate && npm run validate:contracts",
+    "hashes": "node tools/compute-hashes.js",
+    "hashes:check": "node tools/compute-hashes.js --check"
   },
   "devDependencies": {
     "@stoplight/spectral-cli": "^6.11.1",

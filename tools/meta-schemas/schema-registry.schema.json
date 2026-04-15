@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.consilium.internal/meta/schema-registry/1.0",
+  "title": "SchemaRegistryMeta",
+  "description": "Meta-schema for registry/schema-registry.json. Enumerates all published JSON Schemas and their $id→path mappings.",
+  "type": "object",
+  "required": ["description", "generatedAt", "version", "entries"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "JSON Schema URI — should reference this meta-schema."
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of this registry."
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when this registry was last generated."
+    },
+    "version": {
+      "type": "string",
+      "description": "Package version this registry was generated from.",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "entries": {
+      "type": "array",
+      "description": "List of published JSON Schema entries.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "path", "latestVersion", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uri",
+            "description": "The $id URI of the JSON Schema."
+          },
+          "title": {
+            "type": "string",
+            "description": "Human-readable schema title."
+          },
+          "path": {
+            "type": "string",
+            "description": "Relative path from the package root to the schema file."
+          },
+          "latestVersion": {
+            "type": "string",
+            "description": "Latest published version of this schema."
+          },
+          "status": {
+            "type": "string",
+            "enum": ["STABLE", "BETA", "DEPRECATED"],
+            "description": "Publication status of this schema version."
+          }
+        }
+      }
+    }
+  }
+}

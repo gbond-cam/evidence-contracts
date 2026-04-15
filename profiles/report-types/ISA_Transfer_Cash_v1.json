@@ -1,0 +1,56 @@
+{
+  "$schema": "../../tools/meta-schemas/report-type-profile.schema.json",
+  "reportType": "ISA_Transfer_Cash",
+  "version": "1",
+  "description": "Cash ISA transfer to Consilium-managed ISA wrapper. Covers transfers from existing cash ISA providers under HMRC ISA regulations. All required evidence must be present and compliant before the transfer instruction is submitted.",
+  "regulatoryBasis": ["FCA COBS 9", "FCA COBS 9A", "ISA Regulations 1998 (SI 1998/1870)"],
+  "evidenceRequirements": [
+    {
+      "evidenceType": "ATR_RISK_PROFILE",
+      "required": true,
+      "maxAgeInDays": 365,
+      "description": "Current risk profile must be on file and dated within the last 12 months.",
+      "profileRef": "profiles/evidence-profiles/risk-profile.json"
+    },
+    {
+      "evidenceType": "FACT_FIND",
+      "required": true,
+      "maxAgeInDays": 365,
+      "description": "Up-to-date fact find confirming client objectives, circumstances, and financial position.",
+      "profileRef": null
+    },
+    {
+      "evidenceType": "SUITABILITY_REPORT",
+      "required": true,
+      "maxAgeInDays": 90,
+      "description": "Suitability report specific to this transfer, dated within 90 days of submission.",
+      "profileRef": null
+    },
+    {
+      "evidenceType": "ID_VERIFICATION",
+      "required": true,
+      "maxAgeInDays": null,
+      "description": "Valid KYC identity verification. No maximum age — must be valid (document not expired).",
+      "profileRef": "profiles/evidence-profiles/client-identity.json"
+    },
+    {
+      "evidenceType": "FEES_AND_CHARGES_AGREEMENT",
+      "required": true,
+      "maxAgeInDays": null,
+      "description": "Signed fees and charges disclosure (COBS 6.1A) must be on file.",
+      "profileRef": null
+    }
+  ],
+  "optionalEvidence": [
+    {
+      "evidenceType": "MEETING_NOTES",
+      "description": "Notes from the advice meeting at which the ISA transfer was discussed."
+    },
+    {
+      "evidenceType": "CEDING_STATEMENT",
+      "description": "Most recent statement from the ceding ISA provider."
+    }
+  ],
+  "createdAt": "2026-04-15T00:00:00Z",
+  "updatedAt": "2026-04-15T00:00:00Z"
+}

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.consilium.internal/evidence/evidence-risk-profile/1.0",
+  "title": "EvidenceRiskProfile",
+  "description": "Structured content extracted from an Attitude-to-Risk (ATR) profiling document. Captures questionnaire reference, risk band, and key scoring outcomes.",
+  "type": "object",
+  "required": ["itemId", "clientRef", "caseRef", "assessmentDate", "riskBand", "questionnaireRef"],
+  "additionalProperties": false,
+  "properties": {
+    "itemId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Service-assigned unique identifier for this evidence item within the index."
+    },
+    "clientRef": {
+      "$ref": "../../common.1.0.schema.json#/$defs/ClientRef"
+    },
+    "caseRef": {
+      "$ref": "../../common.1.0.schema.json#/$defs/CaseRef"
+    },
+    "assessmentDate": {
+      "$ref": "../../common.1.0.schema.json#/$defs/ISO8601DateTime",
+      "description": "Date and time the risk profile assessment was completed."
+    },
+    "expiresAt": {
+      "oneOf": [
+        { "$ref": "../../common.1.0.schema.json#/$defs/ISO8601DateTime" },
+        { "type": "null" }
+      ],
+      "description": "Date the assessment expires and must be renewed (typically assessmentDate + 365 days)."
+    },
+    "riskBand": {
+      "type": "string",
+      "enum": ["CAUTIOUS", "MODERATELY_CAUTIOUS", "BALANCED", "MODERATELY_ADVENTUROUS", "ADVENTUROUS"],
+      "description": "Categorised risk appetite band derived from the questionnaire score."
+    },
+    "riskScore": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Raw numeric risk score from the questionnaire (0 = lowest risk, 100 = highest)."
+    },
+    "questionnaireRef": {
+      "type": "string",
+      "description": "Identifier of the ATR questionnaire version used (e.g. FinaMetrica-v4, Dynamic-Planner-2025)."
+    },
+    "adviserRef": {
+      "type": "string",
+      "description": "FCA-registered adviser number or internal CRM adviser ID who conducted the assessment.",
+      "maxLength": 64
+    },
+    "capacityForLoss": {
+      "type": "string",
+      "enum": ["LOW", "MEDIUM", "HIGH"],
+      "description": "Adviser's assessment of the client's capacity for financial loss, distinct from attitude to risk."
+    },
+    "knowledgeAndExperience": {
+      "type": "string",
+      "enum": ["BASIC", "INFORMED", "ADVANCED"],
+      "description": "MiFID II / COBS 10 knowledge and experience classification."
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Free-text adviser notes on risk suitability rationale."
+    },
+    "piiLevel": {
+      "$ref": "../../common.1.0.schema.json#/$defs/PiiLevel"
+    }
+  }
+}
