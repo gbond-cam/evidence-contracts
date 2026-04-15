@@ -19,11 +19,29 @@ const schemasDir = path.join(ROOT, "schemas");
 const ajv = new Ajv({ allErrors: true, strict: false });
 addFormats(ajv);
 
-// Pre-load all sibling schemas so relative $refs resolve correctly.
+// First pass: collect each schema filename -> its $id value so we can patch
+// relative $refs (e.g. "./common.1.0.schema.json") into absolute $id URIs.
+const fileToId = {};
 for (const file of fs.readdirSync(schemasDir)) {
   if (!file.endsWith(".json")) continue;
-  const abs = path.join(schemasDir, file);
-  const schema = JSON.parse(fs.readFileSync(abs, "utf8"));
+  const schema = JSON.parse(fs.readFileSync(path.join(schemasDir, file), "utf8"));
+  if (schema.$id) fileToId[file] = schema.$id;
+}
+
+// Second pass: load each schema into AJV, patching relative $refs to the
+// absolute $id URI of the referenced schema so AJV can resolve them.
+for (const file of fs.readdirSync(schemasDir)) {
+  if (!file.endsWith(".json")) continue;
+  let schemaText = fs.readFileSync(path.join(schemasDir, file), "utf8");
+  // Replace "./filename.json#/..." with the $id of that file + fragment
+  schemaText = schemaText.replace(
+    /"\.\/([^"]+\.json)(#[^"]*)?"/g,
+    (_match, fname, frag) => {
+      const id = fileToId[fname];
+      return id ? `"${id}${frag ?? ""}"` : _match;
+    }
+  );
+  const schema = JSON.parse(schemaText);
   try {
     ajv.addSchema(schema, schema.$id);
   } catch {
