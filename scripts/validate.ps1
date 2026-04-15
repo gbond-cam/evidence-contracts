@@ -41,41 +41,9 @@ try {
     # ── 2. JSON Schema example validation ─────────────────────────────────
     Write-Host "`n==> Validating examples against schemas" -ForegroundColor Cyan
 
-    $exampleSchemaMap = @{
-        'examples/ingestion-pull.example.json'               = 'schemas/ingestion-request.1.0.schema.json'
-        'examples/ingestion-push-inline.example.json'        = 'schemas/ingestion-request.1.0.schema.json'
-        'examples/ingestion-reference-sharepoint.example.json' = 'schemas/ingestion-request.1.0.schema.json'
-        'examples/content-complete.example.json'             = 'schemas/ingestion-status.1.0.schema.json'
-    }
-
-    $allPassed = $true
-    foreach ($entry in $exampleSchemaMap.GetEnumerator()) {
-        $example = $entry.Key
-        $schema  = $entry.Value
-
-        # Extract the "value" node from the example file for validation
-        $exampleObj = Get-Content $example -Raw | ConvertFrom-Json
-        $valueJson  = $exampleObj.value | ConvertTo-Json -Depth 20
-
-        $tmpFile = [System.IO.Path]::GetTempFileName() + '.json'
-        $valueJson | Set-Content $tmpFile -Encoding utf8
-
-        Write-Host "  Checking $example against $schema ... " -NoNewline
-        & npx ajv validate -s $schema -d $tmpFile --spec=draft2020 2>&1 | Out-Null
-
-        if ($LASTEXITCODE -eq 0) {
-            Write-Host "PASS" -ForegroundColor Green
-        } else {
-            Write-Host "FAIL" -ForegroundColor Red
-            & npx ajv validate -s $schema -d $tmpFile --spec=draft2020
-            $allPassed = $false
-        }
-
-        Remove-Item $tmpFile -ErrorAction SilentlyContinue
-    }
-
-    if (-not $allPassed) {
-        Write-Error "One or more example validations failed."
+    & node scripts-js/validate-examples.js
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "One or more example validations failed (exit $LASTEXITCODE)."
     }
 
     Write-Host "`n==> All checks passed." -ForegroundColor Green
