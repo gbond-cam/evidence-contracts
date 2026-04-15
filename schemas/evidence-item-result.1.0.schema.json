@@ -32,6 +32,7 @@
       "description": "Byte size of the ingested document."
     },
     "documentDate": {
+      "description": "Date the document was created or executed, if determinable; null otherwise.",
       "oneOf": [
         { "$ref": "./common.1.0.schema.json#/$defs/ISO8601DateTime" },
         { "type": "null" }

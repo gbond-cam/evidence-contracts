@@ -30,11 +30,16 @@ servers:
 security:
   - functionKey: []
 
+tags:
+  - name: Evidence Ingestion
+    description: Operations for submitting, monitoring, and managing evidence ingestion jobs.
+
 paths:
   /evidence/ingest:
     post:
       operationId: ingestEvidence
       summary: Submit an evidence document for ingestion
+      tags: [Evidence Ingestion]
       description: |
         Accepts a new ingestion job. The job is processed asynchronously.
         Monitor progress via the status endpoint or supply a `callbackUrl`.
@@ -77,6 +82,8 @@ paths:
     get:
       operationId: getIngestionStatus
       summary: Poll the status of an ingestion job
+      tags: [Evidence Ingestion]
+      description: Returns the current processing state for an ingestion job identified by its correlationId.
       parameters:
         - name: correlationId
           in: path
@@ -105,6 +112,7 @@ paths:
     delete:
       operationId: deleteEvidence
       summary: Remove an ingested evidence record and its search-index chunks
+      tags: [Evidence Ingestion]
       description: |
         Permanently deletes the evidence item and all associated search-index
         chunks. This action cannot be undone. A full audit entry is written to
@@ -141,19 +149,19 @@ components:
     IngestionStatus:
       $ref: "../schemas/ingestion-status.1.0.schema.json"
 
-    EvidenceItemResult:
-      $ref: "../schemas/evidence-item-result.1.0.schema.json"
-
     ValidationError:
       type: object
       required: [code, message]
       properties:
         code:
           type: string
+          description: Machine-readable error code, e.g. DOC_MUST_BE_LEGIBLE.
         message:
           type: string
+          description: Human-readable description of the validation failure.
         field:
           type: string
+          description: JSON Pointer (RFC 6901) to the offending field, if applicable.
 
     ProblemDetails:
       type: object
@@ -161,14 +169,19 @@ components:
         type:
           type: string
           format: uri
+          description: A URI reference identifying the problem type (RFC 7807).
         title:
           type: string
+          description: Short, human-readable summary of the problem type.
         status:
           type: integer
+          description: HTTP status code associated with this problem.
         detail:
           type: string
+          description: Human-readable explanation specific to this occurrence of the problem.
         errors:
           type: array
+          description: Detailed list of validation errors, when applicable.
           items:
             $ref: "#/components/schemas/ValidationError"
 

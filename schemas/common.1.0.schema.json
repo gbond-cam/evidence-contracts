@@ -43,6 +43,7 @@
     },
     "MimeType": {
       "type": "string",
+      "description": "MIME type of the document content.",
       "enum": [
         "application/pdf",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -64,6 +65,7 @@
     },
     "IngestionStatus": {
       "type": "string",
+      "description": "Lifecycle stage of an ingestion job.",
       "enum": [
         "PENDING",
         "DOWNLOADING",
@@ -99,6 +101,7 @@
     },
     "SharePointReference": {
       "type": "object",
+      "description": "Microsoft Graph DriveItem reference used when mode=PUSH_REFERENCE.",
       "required": ["driveId", "itemId"],
       "properties": {
         "driveId": {

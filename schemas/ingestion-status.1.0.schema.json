@@ -29,6 +29,7 @@
       "$ref": "./common.1.0.schema.json#/$defs/ISO8601DateTime"
     },
     "completedAt": {
+      "description": "Timestamp when the ingestion job reached a terminal state (COMPLETE, FAILED, or REJECTED); null while still in progress.",
       "oneOf": [
         { "$ref": "./common.1.0.schema.json#/$defs/ISO8601DateTime" },
         { "type": "null" }
