@@ -2,17 +2,14 @@ name: Evidence Contracts CI
 
 "on":
   push:
-    paths:
-      - "Packages/evidence-contracts/**"
     branches:
+      - master
       - main
   pull_request:
-    paths:
-      - "Packages/evidence-contracts/**"
 
 defaults:
   run:
-    working-directory: Packages/evidence-contracts
+    working-directory: .
 
 jobs:
   validate:
@@ -61,8 +58,8 @@ jobs:
       - name: Check for breaking changes
         run: |
           oasdiff breaking \
-            _base/Packages/evidence-contracts/openapi/evidence-ingestion.v1.yaml \
-            Packages/evidence-contracts/openapi/evidence-ingestion.v1.yaml \
+            _base/openapi/evidence-ingestion.v1.yaml \
+            openapi/evidence-ingestion.v1.yaml \
             --format text
         continue-on-error: false
 
@@ -98,5 +95,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: evidence-contracts-${{ steps.version.outputs.version }}
-          path: Packages/evidence-contracts/dist/*.zip
+          path: dist/*.zip
           retention-days: 30
