@@ -1,0 +1,18 @@
+{
+  "summary": "ATR Risk Profile — BALANCED band, full assessment for CLIENT-0042",
+  "value": {
+    "itemId": "a3b4c5d6-e001-4000-8000-a00000000001",
+    "clientRef": "CLIENT-0042",
+    "caseRef": "CASE-2026-0155",
+    "assessmentDate": "2026-03-15T14:30:00Z",
+    "expiresAt": "2027-03-15T14:30:00Z",
+    "riskBand": "BALANCED",
+    "riskScore": 52,
+    "questionnaireRef": "Dynamic-Planner-2025",
+    "adviserRef": "ADV-007",
+    "capacityForLoss": "MEDIUM",
+    "knowledgeAndExperience": "INFORMED",
+    "piiLevel": "HIGH",
+    "notes": "Client has moderate investment experience and medium capacity for loss. BALANCED band confirmed on review."
+  }
+}

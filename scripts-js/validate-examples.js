@@ -19,29 +19,47 @@ const schemasDir = path.join(ROOT, "schemas");
 const ajv = new Ajv({ allErrors: true, strict: false });
 addFormats(ajv);
 
-// First pass: collect each schema filename -> its $id value so we can patch
-// relative $refs (e.g. "./common.1.0.schema.json") into absolute $id URIs.
-const fileToId = {};
-for (const file of fs.readdirSync(schemasDir)) {
-  if (!file.endsWith(".json")) continue;
-  const schema = JSON.parse(fs.readFileSync(path.join(schemasDir, file), "utf8"));
-  if (schema.$id) fileToId[file] = schema.$id;
+// Recursively collect all JSON schema files under schemasDir.
+function collectSchemaFiles(dir) {
+  const results = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      results.push(...collectSchemaFiles(full));
+    } else if (entry.name.endsWith(".json")) {
+      results.push(full);
+    }
+  }
+  return results;
+}
+
+const allSchemaFiles = collectSchemaFiles(schemasDir);
+
+// First pass: build absolutePath -> $id map so relative $refs can be resolved
+// by file path (works for both "./common.1.0.schema.json" and "../../common.1.0.schema.json").
+const pathToId = {};
+for (const filePath of allSchemaFiles) {
+  const schema = JSON.parse(fs.readFileSync(filePath, "utf8"));
+  if (schema.$id) pathToId[filePath] = schema.$id;
 }
 
 // Second pass: load each schema into AJV, patching relative $refs to the
 // absolute $id URI of the referenced schema so AJV can resolve them.
-for (const file of fs.readdirSync(schemasDir)) {
-  if (!file.endsWith(".json")) continue;
-  let schemaText = fs.readFileSync(path.join(schemasDir, file), "utf8");
-  // Replace "./filename.json#/..." with the $id of that file + fragment
+for (const filePath of allSchemaFiles) {
+  let schemaText = fs.readFileSync(filePath, "utf8");
+  const schemaDir = path.dirname(filePath);
+  // Replace any relative file $ref (./file.json or ../../file.json etc.) with
+  // the absolute $id URI of the target schema + the JSON pointer fragment.
   schemaText = schemaText.replace(
-    /"\.\/([^"]+\.json)(#[^"]*)?"/g,
-    (_match, fname, frag) => {
-      const id = fileToId[fname];
+    /"((?:\.\.\/|\.\/)[^"]+\.json)(#[^"]*)?"/g,
+    (_match, relPath, frag) => {
+      const absRef = path.resolve(schemaDir, relPath);
+      const id = pathToId[absRef];
       return id ? `"${id}${frag ?? ""}"` : _match;
     }
   );
   const schema = JSON.parse(schemaText);
+  if (!schema.$id) continue;
   try {
     ajv.addSchema(schema, schema.$id);
   } catch {
@@ -66,6 +84,14 @@ const EXAMPLE_SCHEMA_MAP = [
   {
     example: "examples/content-complete.example.json",
     schema: "schemas/ingestion-status.1.0.schema.json",
+  },
+  {
+    example: "examples/evidence-risk-profile.example.json",
+    schema: "schemas/evidence-risk-profile/1.0/schema.json",
+  },
+  {
+    example: "examples/evidence-client-identity.example.json",
+    schema: "schemas/evidence-client-identity/1.0/schema.json",
   },
 ];
 

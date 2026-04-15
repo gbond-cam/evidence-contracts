@@ -1,0 +1,24 @@
+{
+  "summary": "KYC Identity Verification — UK Passport with address check and PEP screening for CLIENT-0042",
+  "value": {
+    "itemId": "b4c5d6e7-e002-4000-8000-b00000000001",
+    "clientRef": "CLIENT-0042",
+    "documentType": "PASSPORT",
+    "documentNumber": "GB-***-4872",
+    "issuingCountry": "GB",
+    "documentExpiryDate": "2031-06-14",
+    "verifiedAt": "2026-01-10T09:15:00Z",
+    "verificationMethod": "IN_PERSON",
+    "addressVerification": {
+      "documentType": "UTILITY_BILL",
+      "verifiedAt": "2026-01-10T09:15:00Z",
+      "documentDate": "2025-12-01"
+    },
+    "pepSanctionsCheck": {
+      "checkedAt": "2026-01-10T09:20:00Z",
+      "result": "CLEAR",
+      "providerRef": "DJR-2026-0110-9882"
+    },
+    "piiLevel": "HIGH"
+  }
+}
