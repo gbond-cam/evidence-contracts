@@ -34,7 +34,7 @@ jobs:
         run: npx spectral lint openapi/evidence-ingestion.v1.yaml --ruleset tools/spectral.yaml --format pretty
 
       - name: Validate examples against schemas
-        run: chmod +x scripts/validate.sh && ./scripts/validate.sh
+        run: node scripts-js/validate-examples.js
 
   breaking-change-check:
     name: Breaking Change Check
