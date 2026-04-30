@@ -14,7 +14,8 @@ public sealed record PlaceholderDefinition(
     string? Format,
     bool Pii,
     string? Description,
-    IReadOnlyList<string>? Examples
+    IReadOnlyList<string>? Examples,
+    string? StaticValue = null
 );
 
 public sealed record PlaceholderAlias(
